@@ -60,7 +60,7 @@ const Commons = {
   runtime: {
     name: (typeof process === "undefined" ? "deno" : process.title)
       .split("/")
-      .at(-1) as "node" | "bun" | "deno",
+      .at(-1) as Runtimes,
     /**
      * Retrieves the required and current versions of the runtime.
      *
