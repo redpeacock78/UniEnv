@@ -31,6 +31,7 @@
     "tsx": "^4.16.5"
   },
   "scripts": {
-    "build": "tsx ./scripts/build_ts.ts"
+    "build": "tsx ./scripts/build_ts.ts",
+    "prepublishOnly": "npm run build"
   }
 }
