@@ -18,14 +18,24 @@
   ```javascript
   // Referenced from .env file
   const getEnv = UniEnv.get('EXAMPLE');
-  console.log(`${getEnv.isOk() ? getEnv.value : getEnv.error}`);
+  if (getEnv.isOk()) console.log(getEnv.value);
+  if (getEnv.isNg()) console.error(getEnv.error);
+
 
   // Set, reference, and delete environment variables
+  // Set environment variables
   const setKey = UniEnv.set('KEY', 'value');
+  if (setKey.isOk()) console.log("Successfully set environment variables!");
   if (setKey.isNg()) console.error(setKey.error);
+
+  // Reference environment variables
   const getKey = UniEnv.get('KEY');
-  console.log(`${getKey.isOk() ? getKey.value : getKey.error}`);
+  if (getKey.isOk()) console.log(getKey.value);
+  if (getKey.isNg()) console.error(getKey.error);
+  
+  // Delete environment variables
   const rmKey = UniEnv.delete('KEY');
+  if (rmKey.isOk()) console.log("Successfully deleted environment variables!");
   if (rmKey.isNg()) console.error(rmKey.error);
   ```
 
@@ -47,3 +57,6 @@
 |Node.js|Bun|Deno|
 |:-:|:-:|:-:|
 |✅ `12.0.0` or higher|✅ `1.0` or higher|✅ `1.30.0` or higher|
+
+## License
+MIT
