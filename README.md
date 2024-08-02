@@ -6,12 +6,12 @@
 - ### Code
   ### Node.js and Bun
   ```javascript
-  import UniEnv from '@redpeacock78/uni-env';
+  import UniEnv from '@redpeacock78/unienv';
   ```
 
   ### Deno
   ```typescript
-  import UniEnv from "npm:@redpeacock78/uni-env";
+  import UniEnv from "npm:@redpeacock78/unienv";
   ```
 
   ### Example
