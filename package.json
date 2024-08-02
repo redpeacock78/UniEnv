@@ -1,5 +1,5 @@
 {
-  "name": "unienv",
+  "name": "uni-env",
   "version": "0.0.1",
   "description": "Unified environment variable management for Node.js, Deno, and Bun.",
   "main": "index.js",
