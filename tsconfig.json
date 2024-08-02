@@ -1,0 +1,15 @@
+{
+  "include": [
+    "src"
+  ],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "sourceMap": true,
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true
+    }
+}
