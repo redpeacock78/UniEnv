@@ -58,10 +58,9 @@ declare const Deno: Deno;
 
 const Commons = {
   runtime: {
-    name: (process?.title ?? "deno").split("/").at(-1) as
-      | "node"
-      | "bun"
-      | "deno",
+    name: (typeof process === "undefined" ? "deno" : process.title)
+      .split("/")
+      .at(-1) as "node" | "bun" | "deno",
     /**
      * Retrieves the required and current versions of the runtime.
      *
