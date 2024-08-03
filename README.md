@@ -32,8 +32,11 @@
   const getKey = UniEnv.get("KEY");
   if (getKey.isNg()) console.error(getKey.error.message);
   if (getKey.isOk()) {
-    if (!getKey.value) console.log("KEY is not set!");
-    console.log(getKey.value);
+    if (!getKey.value) {
+      console.log("KEY is not set!");
+    } else {
+      console.log(getKey.value);
+    }
   }
   
   // Delete environment variables
