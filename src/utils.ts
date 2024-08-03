@@ -123,7 +123,7 @@ const Utils = {
    * @param {string} str - The input string.
    * @return {string} The string with the first letter capitalized.
    */
-  capitalizeFirstLetter: (str: string): string =>
+  ucFirst: (str: string): string =>
     [...str]
       .map((i: string, n: number): string => (n === 0 ? i.toUpperCase() : i))
       .join(""),
