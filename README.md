@@ -18,8 +18,14 @@
   ```javascript
   // Referenced from .env file
   const getEnv = UniEnv.get("EXAMPLE");
-  if (getEnv.isOk()) console.log(getEnv.value);
-  if (getEnv.isNg()) console.error(getEnv.error);
+  if (getEnv.isNg()) console.error(getEnv.error.message);
+  if (getEnv.isOk()) {
+    if (!getEnv.value) {
+      console.log("EXAMPLE is not set!");
+    } else {
+      console.log(getEnv.value);
+    }
+  }
 
 
   // Set, reference, and delete environment variables
