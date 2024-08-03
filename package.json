@@ -8,17 +8,16 @@
   "license": "MIT",
   "exports": {
     "require": {
-      "types": "./cjs/lib/index.d.cts",
-      "default": "./cjs/lib/index.cjs"
+      "types": "./dist/cjs/lib/index.d.cts",
+      "default": "./dist/cjs/lib/index.cjs"
     },
     "default": {
-      "types": "./mjs/lib/index.d.mts",
-      "default": "./mjs/lib/index.mjs"
+      "types": "./dist/mjs/lib/index.d.mts",
+      "default": "./dist/mjs/lib/index.mjs"
     }
   },
   "files": [
-    "cjs/",
-    "mjs/",
+    "dist/",
     "LICENSE",
     "package.json",
     "README.md"
