@@ -1,12 +1,34 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
 import ts from "typescript";
+import path from "node:path";
+import { promises as fs } from "node:fs";
 
 const baseConfigFileName = "./tsconfig.json";
 const mappings = [
-  { type: "module", outDir: "mjs", tsExt: "mts" },
-  { type: "commonjs", outDir: "cjs", tsExt: "cts" },
+  { type: "module", outDir: "dist/mjs", tsExt: "mts" },
+  { type: "commonjs", outDir: "dist/cjs", tsExt: "cts" },
 ];
+
+const printDiagnostics = (...diagnostics: ts.Diagnostic[]): void => {
+  for (const diagnostic of diagnostics) {
+    if (diagnostic.file) {
+      const { line, character } = ts.getLineAndCharacterOfPosition(
+        diagnostic.file,
+        diagnostic.start!
+      );
+      const message = ts.flattenDiagnosticMessageText(
+        diagnostic.messageText,
+        "\n"
+      );
+      console.error(
+        `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
+      );
+    } else {
+      console.error(
+        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
+      );
+    }
+  }
+};
 
 const configFile = ts.readConfigFile(baseConfigFileName, ts.sys.readFile);
 if (configFile.error) {
@@ -19,15 +41,17 @@ const configResult = ts.parseJsonConfigFileContent(
   ts.sys,
   "./"
 );
+
 if (configResult.errors.length > 0) {
   printDiagnostics(...configResult.errors);
   process.exit(1);
 }
-(async () => {
+
+(async (): Promise<void> => {
   for (const mapping of mappings) {
     try {
       await fs.rm(mapping.outDir, { recursive: true });
-    } catch (err) {}
+    } catch {}
 
     const newFileNames = new Array<string>();
     for (const fileName of configResult.fileNames) {
@@ -76,25 +100,3 @@ if (configResult.errors.length > 0) {
     }
   }
 })();
-
-function printDiagnostics(...diagnostics: ts.Diagnostic[]) {
-  for (const diagnostic of diagnostics) {
-    if (diagnostic.file) {
-      const { line, character } = ts.getLineAndCharacterOfPosition(
-        diagnostic.file,
-        diagnostic.start!
-      );
-      const message = ts.flattenDiagnosticMessageText(
-        diagnostic.messageText,
-        "\n"
-      );
-      console.error(
-        `${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`
-      );
-    } else {
-      console.error(
-        ts.flattenDiagnosticMessageText(diagnostic.messageText, "\n")
-      );
-    }
-  }
-}
