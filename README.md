@@ -6,7 +6,7 @@
 - ### Code
   ### Node.js and Bun
   ```javascript
-  import UniEnv from '@redpeacock78/unienv';
+  import UniEnv from "@redpeacock78/unienv";
   ```
 
   ### Deno
@@ -17,26 +17,29 @@
   ### Example
   ```javascript
   // Referenced from .env file
-  const getEnv = UniEnv.get('EXAMPLE');
+  const getEnv = UniEnv.get("EXAMPLE");
   if (getEnv.isOk()) console.log(getEnv.value);
   if (getEnv.isNg()) console.error(getEnv.error);
 
 
   // Set, reference, and delete environment variables
   // Set environment variables
-  const setKey = UniEnv.set('KEY', 'value');
+  const setKey = UniEnv.set("KEY", "value");
+  if (setKey.isNg()) console.error(setKey.error.message);
   if (setKey.isOk()) console.log("Successfully set environment variables!");
-  if (setKey.isNg()) console.error(setKey.error);
 
   // Reference environment variables
-  const getKey = UniEnv.get('KEY');
-  if (getKey.isOk()) console.log(getKey.value);
-  if (getKey.isNg()) console.error(getKey.error);
+  const getKey = UniEnv.get("KEY");
+  if (getKey.isNg()) console.error(getKey.error.message);
+  if (getKey.isOk()) {
+    if (!getKey.value) console.log("KEY is not set!");
+    console.log(getKey.value);
+  }
   
   // Delete environment variables
-  const rmKey = UniEnv.delete('KEY');
+  const rmKey = UniEnv.delete("KEY");
+  if (rmKey.isNg()) console.error(rmKey.error.message);
   if (rmKey.isOk()) console.log("Successfully deleted environment variables!");
-  if (rmKey.isNg()) console.error(rmKey.error);
   ```
 
 - ### Run
