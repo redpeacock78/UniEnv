@@ -12,6 +12,8 @@ class VersionError extends Error {
   }
 }
 
+const name = Commons.runtime.name;
+
 const setRuntimeMap = {
   /**
    * Sets the value for a key in the Node.js runtime map.
@@ -175,7 +177,7 @@ const UniEnv = {
    * @return {Result<void, VersionError>} The result of setting the key-value pair.
    */
   set(key: string, value: string): Result<void, VersionError> {
-    return setRuntimeMap[Commons.runtime.name]?.(key, value);
+    return setRuntimeMap[name]?.(key, value);
   },
   /**
    * Retrieves a value from the runtime map based on the provided key.
@@ -184,7 +186,7 @@ const UniEnv = {
    * @return {Result<Maybe<string>, VersionError>} The value associated with the key or a VersionError.
    */
   get(key: string): Result<Maybe<string>, VersionError> {
-    return getRuntimeMap[Commons.runtime.name]?.(key);
+    return getRuntimeMap[name]?.(key);
   },
   /**
    * Deletes a key-value pair in the runtime map based on the runtime's name.
@@ -193,7 +195,7 @@ const UniEnv = {
    * @return {Result<void, VersionError | Error>} The result of deleting the key-value pair.
    */
   delete(key: string): Result<void, VersionError | Error> {
-    return deleteRuntimeMap[Commons.runtime.name]?.(key);
+    return deleteRuntimeMap[name]?.(key);
   },
 };
 
