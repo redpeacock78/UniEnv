@@ -1,6 +1,6 @@
 {
   "name": "@redpeacock78/unienv",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Unified environment variable management for Node.js, Deno, and Bun.",
   "main": "index.js",
   "repository": "https://github.com/redpeacock78/UniEnv.git",
