@@ -1,7 +1,7 @@
 "use strict";
 import Utils from "./utils.ts";
-import Commons from "./commons.ts";
 import { Maybe, Result, Ok, Ng } from "./types.ts";
+import Commons, { RuntimeName } from "./commons.ts";
 
 class VersionError extends Error {
   constructor(runtimeName: string, require: string, current: string) {
@@ -11,8 +11,6 @@ class VersionError extends Error {
     this.name = "VersionError";
   }
 }
-
-const name = Commons.runtime.name;
 
 const setRuntimeMap = {
   /**
@@ -177,7 +175,7 @@ const UniEnv = {
    * @return {Result<void, VersionError>} The result of setting the key-value pair.
    */
   set(key: string, value: string): Result<void, VersionError> {
-    return setRuntimeMap[name]?.(key, value);
+    return setRuntimeMap[RuntimeName]?.(key, value);
   },
   /**
    * Retrieves a value from the runtime map based on the provided key.
@@ -186,7 +184,7 @@ const UniEnv = {
    * @return {Result<Maybe<string>, VersionError>} The value associated with the key or a VersionError.
    */
   get(key: string): Result<Maybe<string>, VersionError> {
-    return getRuntimeMap[name]?.(key);
+    return getRuntimeMap[RuntimeName]?.(key);
   },
   /**
    * Deletes a key-value pair in the runtime map based on the runtime's name.
@@ -195,7 +193,7 @@ const UniEnv = {
    * @return {Result<void, VersionError | Error>} The result of deleting the key-value pair.
    */
   delete(key: string): Result<void, VersionError | Error> {
-    return deleteRuntimeMap[name]?.(key);
+    return deleteRuntimeMap[RuntimeName]?.(key);
   },
 };
 
