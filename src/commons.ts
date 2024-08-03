@@ -79,13 +79,13 @@ const Commons = {
     version: (): Versions => {
       return {
         require:
-          Commons.runtime.name === "node"
+          RuntimeName === "node"
             ? "12.0.0" // Node.js
-            : Commons.runtime.name === "deno"
+            : RuntimeName === "deno"
             ? "1.30.0" // Deno
             : "1.0", // Bun
         current:
-          Commons.runtime.name !== "deno"
+          RuntimeName !== "deno"
             ? process.versions.node // Node.js & Bun
             : Deno.version.deno, // Deno
       };
@@ -97,7 +97,7 @@ const Commons = {
    * @return {Platforms} The platform based on the runtime.
    */
   platform: function (this: Commons): Platforms {
-    return this.runtime.name !== "deno" ? process.platform : Deno.build.os;
+    return RuntimeName !== "deno" ? process.platform : Deno.build.os;
   },
   /**
    * Returns the current working directory based on the runtime.
@@ -105,7 +105,7 @@ const Commons = {
    * @return {string} The current working directory.
    */
   cwd: function (this: Commons): string {
-    return this.runtime.name !== "deno" ? process.cwd() : Deno.cwd();
+    return RuntimeName !== "deno" ? process.cwd() : Deno.cwd();
   },
   /**
    * Determines if a file exists synchronously based on the runtime.
@@ -114,7 +114,7 @@ const Commons = {
    * @return {boolean} Whether the file exists or not.
    */
   existsSync: function (this: Commons, path: Path): boolean {
-    return this.runtime.name !== "deno"
+    return RuntimeName !== "deno"
       ? fs.existsSync(path)
       : Deno.statSync(path).isFile;
   },
@@ -125,7 +125,7 @@ const Commons = {
    * @return {string} The content of the file as a string.
    */
   readTextFileSync: function (this: Commons, path: Path): string {
-    return this.runtime.name !== "deno"
+    return RuntimeName !== "deno"
       ? fs.readFileSync(path).toString("utf8")
       : Deno.readTextFileSync(path);
   },
@@ -137,9 +137,7 @@ const Commons = {
      * @return {Maybe<string>} The value of the environment variable, or undefined if it does not exist.
      */
     get: (name: string): Maybe<string> => {
-      return Commons.runtime.name !== "deno"
-        ? process.env[name]
-        : Deno.env.get(name);
+      return RuntimeName !== "deno" ? process.env[name] : Deno.env.get(name);
     },
     /**
      * Sets the value of an environment variable based on the runtime.
@@ -149,7 +147,7 @@ const Commons = {
      * @return {void} This function does not return a value.
      */
     set: (name: string, value: string): void => {
-      Commons.runtime.name !== "deno"
+      RuntimeName !== "deno"
         ? (process.env[name] = value)
         : Deno.env.set(name, value);
     },
@@ -160,11 +158,11 @@ const Commons = {
      * @return {void} The result of deleting the environment variable.
      */
     delete: (name: string): void => {
-      Commons.runtime.name !== "deno"
-        ? delete process.env[name]
-        : Deno.env.delete(name);
+      RuntimeName !== "deno" ? delete process.env[name] : Deno.env.delete(name);
     },
   },
 };
+const RuntimeName: Runtimes = Commons.runtime.name;
 
 export default Commons;
+export { RuntimeName };
