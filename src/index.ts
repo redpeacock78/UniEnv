@@ -12,7 +12,7 @@ class VersionError extends Error {
   }
 }
 
-const runtime = Utils.capitalizeFirstLetter(
+const runtime = Utils.ucFirst(
   RuntimeName === "node" ? `${RuntimeName}.js` : RuntimeName
 );
 const version = {
