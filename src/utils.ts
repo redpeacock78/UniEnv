@@ -124,9 +124,7 @@ const Utils = {
    * @return {string} The string with the first letter capitalized.
    */
   ucFirst: (str: string): string =>
-    [...str]
-      .map((i: string, n: number): string => (n === 0 ? i.toUpperCase() : i))
-      .join(""),
+    `${str.charAt(0).toUpperCase()}${str.slice(1)}`,
 };
 
 export default Utils;
