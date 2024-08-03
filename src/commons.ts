@@ -96,39 +96,32 @@ const Commons = {
    *
    * @return {Platforms} The platform based on the runtime.
    */
-  platform: function (this: Commons): Platforms {
-    return RuntimeName !== "deno" ? process.platform : Deno.build.os;
-  },
+  platform: (): Platforms =>
+    RuntimeName !== "deno" ? process.platform : Deno.build.os,
   /**
    * Returns the current working directory based on the runtime.
    *
    * @return {string} The current working directory.
    */
-  cwd: function (this: Commons): string {
-    return RuntimeName !== "deno" ? process.cwd() : Deno.cwd();
-  },
+  cwd: (): string => (RuntimeName !== "deno" ? process.cwd() : Deno.cwd()),
   /**
    * Determines if a file exists synchronously based on the runtime.
    *
    * @param {Path} path - The path to the file.
    * @return {boolean} Whether the file exists or not.
    */
-  existsSync: function (this: Commons, path: Path): boolean {
-    return RuntimeName !== "deno"
-      ? fs.existsSync(path)
-      : Deno.statSync(path).isFile;
-  },
+  existsSync: (path: Path): boolean =>
+    RuntimeName !== "deno" ? fs.existsSync(path) : Deno.statSync(path).isFile,
   /**
    * Reads the content of a file synchronously based on the runtime.
    *
    * @param {Path} path - The path to the file.
    * @return {string} The content of the file as a string.
    */
-  readTextFileSync: function (this: Commons, path: Path): string {
-    return RuntimeName !== "deno"
+  readTextFileSync: (path: Path): string =>
+    RuntimeName !== "deno"
       ? fs.readFileSync(path).toString("utf8")
-      : Deno.readTextFileSync(path);
-  },
+      : Deno.readTextFileSync(path),
   env: {
     /**
      * Retrieves the value of an environment variable based on the runtime.
@@ -136,9 +129,8 @@ const Commons = {
      * @param {string} name - The name of the environment variable.
      * @return {Maybe<string>} The value of the environment variable, or undefined if it does not exist.
      */
-    get: (name: string): Maybe<string> => {
-      return RuntimeName !== "deno" ? process.env[name] : Deno.env.get(name);
-    },
+    get: (name: string): Maybe<string> =>
+      RuntimeName !== "deno" ? process.env[name] : Deno.env.get(name),
     /**
      * Sets the value of an environment variable based on the runtime.
      *
