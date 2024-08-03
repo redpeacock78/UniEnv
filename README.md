@@ -21,7 +21,7 @@
   if (getEnv.isNg()) console.error(getEnv.error.message);
   if (getEnv.isOk()) {
     if (!getEnv.value) {
-      console.log("EXAMPLE is not set!");
+      console.error("EXAMPLE is not set!");
     } else {
       console.log(getEnv.value);
     }
@@ -39,7 +39,7 @@
   if (getKey.isNg()) console.error(getKey.error.message);
   if (getKey.isOk()) {
     if (!getKey.value) {
-      console.log("KEY is not set!");
+      console.error("KEY is not set!");
     } else {
       console.log(getKey.value);
     }
