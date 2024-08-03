@@ -189,10 +189,3 @@ undici-types@~6.13.0:
   version "6.13.0"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.13.0.tgz#e3e79220ab8c81ed1496b5812471afd7cf075ea5"
   integrity sha512-xtFJHudx8S2DSoujjMd1WeWvn7KKWFRESZTMeL1RptAYERu29D6jphMjjY+vn96jvN3kVPDNxU/E13VTaXj6jg==
-
-unienv@./unienv-0.0.1.tgz:
-  version "0.0.1"
-  resolved "./unienv-0.0.1.tgz#9b25111a456bc386845bc6ad73419e844baf98e6"
-  dependencies:
-    "@types/node" "^22.1.0"
-    typescript "^5.5.4"
