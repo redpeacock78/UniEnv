@@ -12,6 +12,14 @@ class VersionError extends Error {
   }
 }
 
+const runtime = Utils.capitalizeFirstLetter(
+  RuntimeName === "node" ? `${RuntimeName}.js` : RuntimeName
+);
+const version = {
+  require: Commons.runtime.version().require,
+  current: Commons.runtime.version().current,
+};
+
 const setRuntimeMap = {
   /**
    * Sets the value for a key in the Node.js runtime map.
@@ -21,10 +29,10 @@ const setRuntimeMap = {
    * @return {Result<void, VersionError>} Success if the value is set successfully, otherwise a VersionError.
    */
   node: (key: string, value: string): Result<void, VersionError> => {
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError("Node.js", require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     return new Ok(Commons.env.set(key, value));
   },
   /**
@@ -35,10 +43,10 @@ const setRuntimeMap = {
    * @return {Result<void, VersionError>} Success if the value is set successfully, otherwise a VersionError.
    */
   bun: (key: string, value: string): Result<void, VersionError> => {
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError("Bun", require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     return new Ok(Commons.env.set(key, value));
   },
   /**
@@ -49,10 +57,10 @@ const setRuntimeMap = {
    * @return {Result<void, VersionError>} Success if the value is set successfully, otherwise a VersionError.
    */
   deno: (key: string, value: string): Result<void, VersionError> => {
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError("Deno", require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     return new Ok(Commons.env.set(key, value));
   },
 };
@@ -65,11 +73,10 @@ const getRuntimeMap = {
    * @return {Result<Maybe<string>, VersionError>} The value associated with the key or a VersionError.
    */
   node: (key: string): Result<Maybe<string>, VersionError> => {
-    const runtime = Utils.capitalizeFirstLetter(`${RuntimeName}.js`);
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError(runtime, require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     const envFileSpecified: string[] = process.execArgv.filter(
       (execArg: string): boolean => execArg.startsWith("--env-file=")
     );
@@ -77,7 +84,7 @@ const getRuntimeMap = {
       try {
         return new Ok<Maybe<string>>(Commons.env.get(key));
       } catch {
-        return new Ng(new VersionError(runtime, "20.6.0", current));
+        return new Ng(new VersionError(runtime, "20.6.0", version.current));
       }
     Utils.loadEnvIfNeeded();
     return new Ok(Commons.env.get(key));
@@ -89,11 +96,10 @@ const getRuntimeMap = {
    * @return {Result<Maybe<string>, VersionError>} The value associated with the key or a VersionError.
    */
   bun: (key: string): Result<Maybe<string>, VersionError> => {
-    const runtime = Utils.capitalizeFirstLetter(RuntimeName);
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError(runtime, require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     return new Ok(Commons.env.get(key));
   },
   /**
@@ -103,11 +109,10 @@ const getRuntimeMap = {
    * @return {Result<Maybe<string>, VersionError>} The value associated with the key or a VersionError.
    */
   deno: (key: string): Result<Maybe<string>, VersionError> => {
-    const runtime = Utils.capitalizeFirstLetter(RuntimeName);
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError(runtime, require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     Utils.loadEnvIfNeeded();
     return new Ok(Commons.env.get(key));
   },
@@ -121,11 +126,10 @@ const deleteRuntimeMap = {
    * @return {Result<void, VersionError>} - Returns a Result object containing a void value if the key is successfully deleted, or a VersionError if the runtime version is less than the required version.
    */
   node: (key: string): Result<void, VersionError | Error> => {
-    const runtime = Utils.capitalizeFirstLetter(`${RuntimeName}.js`);
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError(runtime, require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     try {
       return new Ok(Commons.env.delete(key));
     } catch (e: unknown) {
@@ -139,11 +143,10 @@ const deleteRuntimeMap = {
    * @return {Result<void, VersionError>} - Returns a Result object containing a void value if the key is successfully deleted, or a VersionError if the runtime version is less than the required version.
    */
   bun: (key: string): Result<void, VersionError | Error> => {
-    const runtime = Utils.capitalizeFirstLetter(RuntimeName);
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError(runtime, require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     try {
       return new Ok(Commons.env.delete(key));
     } catch (e: unknown) {
@@ -157,15 +160,16 @@ const deleteRuntimeMap = {
    * @return {Result<void, VersionError>} - Returns a Result object containing a void value if the key is successfully deleted, or a VersionError if the runtime version is less than the required version.
    */
   deno: (key: string): Result<void, VersionError> => {
-    const runtime = Utils.capitalizeFirstLetter(RuntimeName);
-    const require = Commons.runtime.version().require;
-    const current = Commons.runtime.version().current;
-    if (!Utils.versioning.moreThan(require, current))
-      return new Ng(new VersionError(runtime, require, current));
+    if (!Utils.versioning.moreThan(version.require, version.current))
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     try {
       return new Ok(Commons.env.delete(key));
     } catch {
-      return new Ng(new VersionError(runtime, require, current));
+      return new Ng(
+        new VersionError(runtime, version.require, version.current)
+      );
     }
   },
 };
