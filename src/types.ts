@@ -38,7 +38,17 @@ export type Maybe<T> = T | Nullish;
 export type Path = string | URL;
 export type Runtimes = "node" | "bun" | "deno";
 export type Platforms =
-  | typeof ProcessTypes.platform
+  | "aix"
+  | "android"
+  | "darwin"
+  | "freebsd"
+  | "haiku"
+  | "linux"
+  | "openbsd"
+  | "sunos"
+  | "win32"
+  | "cygwin"
+  | "netbsd"
   | typeof DenoTypes.build.os;
 export type Versions = {
   require: string;
@@ -65,22 +75,6 @@ export type PermissionDescriptor = {
     | "getPriority"
     | "setPriority";
 };
-
-interface ProcessTypes {
-  title: string;
-  versions: { node: string };
-  platform:
-    | "aix"
-    | "darwin"
-    | "freebsd"
-    | "linux"
-    | "openbsd"
-    | "sunos"
-    | "win32";
-  env: { [key: string]: Maybe<string> };
-  execArgv: string[];
-  cwd(): string;
-}
 interface DenoTypes {
   version: { deno: string };
   build: { os: "darwin" | "linux" | "windows" };
@@ -102,5 +96,4 @@ interface DenoTypes {
     };
   };
 }
-export declare const ProcessTypes: ProcessTypes;
 export declare const DenoTypes: DenoTypes;
