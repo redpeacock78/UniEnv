@@ -120,7 +120,8 @@ const getRuntimeMap = {
   deno: (key: string): Result<Maybe<string>, VersionError> => {
     if (!isSatisfiesVersion)
       return new Ng<VersionError>(new VersionError(genericVersionError));
-    Utils.loadEnvIfNeeded();
+    const permission = Commons.permissions({ name: "read" });
+    if (permission === "granted") Utils.loadEnvIfNeeded();
     return new Ok<Maybe<string>>(Commons.env.get(key));
   },
 };
