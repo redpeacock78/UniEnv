@@ -1,61 +1,21 @@
 "use strict";
 import * as fs from "fs";
-import { Maybe } from "./types.ts";
+import {
+  Maybe,
+  Path,
+  Runtimes,
+  Platforms,
+  Versions,
+  DenoTypes,
+  ProcessTypes,
+  PermissionDescriptor,
+} from "./types.ts";
 
-type Path = string | URL;
-interface process {
-  title: string;
-  versions: { node: string };
-  platform:
-    | "aix"
-    | "darwin"
-    | "freebsd"
-    | "linux"
-    | "openbsd"
-    | "sunos"
-    | "win32";
-  env: { [key: string]: Maybe<string> };
-  execArgv: string[];
-  cwd(): string;
-}
-interface Deno {
-  version: { deno: string };
-  build: { os: "darwin" | "linux" | "windows" };
-  env: {
-    get(name: string): Maybe<string>;
-    set(name: string, value: string): void;
-    delete(name: string): void;
-  };
-  cwd(): string;
-  readTextFileSync(path: Path): string;
-  statSync(path: Path): {
-    isFile: boolean;
-  };
-}
-type Runtimes = "node" | "bun" | "deno";
-type Versions = {
-  require: string;
-  current: string;
-};
-type Platforms = typeof process.platform | typeof Deno.build.os;
-interface Commons {
-  runtime: {
-    name: Runtimes;
-    version: () => Versions;
-  };
-  platform: () => Platforms;
-  cwd: () => string;
-  existsSync: (path: Path) => boolean;
-  readTextFileSync: (path: Path) => string;
-  env: {
-    get: (name: string) => Maybe<string>;
-    set: (name: string, value: string) => void;
-    delete: (name: string) => void;
-  };
-}
-declare const process: process;
-declare const Deno: Deno;
+export declare const Deno: typeof DenoTypes;
+export declare const process: typeof ProcessTypes;
 
+let permissionLoaded: boolean = false;
+let permissionPersult: Maybe<"granted" | "prompt" | "denied">;
 const Commons = {
   runtime: {
     name:
@@ -152,6 +112,23 @@ const Commons = {
     delete: (name: string): void => {
       RuntimeName !== "deno" ? delete process.env[name] : Deno.env.delete(name);
     },
+  },
+  /**
+   * Checks the permission for the given `desc` and returns the result.
+   *
+   * @param {PermissionDescriptor} desc - The description of the permission to check.
+   * @return {"granted" | "prompt" | "denied"} The result of the permission check. It contains the state of the permission,
+   *                  whether it is partial, and the onchange event handler.
+   */
+  permissions: (
+    desc: PermissionDescriptor
+  ): Maybe<"granted" | "prompt" | "denied"> => {
+    if (!permissionLoaded) {
+      permissionPersult =
+        RuntimeName !== "deno" ? null : Deno.permissions.querySync(desc).state;
+      permissionLoaded = true;
+    }
+    return permissionPersult;
   },
 };
 const RuntimeName: Runtimes = Commons.runtime.name;
