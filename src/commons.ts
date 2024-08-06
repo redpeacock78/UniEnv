@@ -1,5 +1,6 @@
 "use strict";
 import * as fs from "fs";
+import process from "process";
 import {
   Maybe,
   Path,
@@ -7,23 +8,16 @@ import {
   Platforms,
   Versions,
   DenoTypes,
-  ProcessTypes,
   PermissionDescriptor,
 } from "./types.ts";
 
 export declare const Deno: typeof DenoTypes;
-export declare const process: typeof ProcessTypes;
 
 let permissionLoaded: boolean = false;
 let permissionPersult: Maybe<"granted" | "prompt" | "denied">;
 const Commons = {
   runtime: {
-    name:
-      typeof process === "undefined"
-        ? "deno"
-        : typeof process.title === "undefined"
-        ? "deno"
-        : (process.title.split("/").at(-1) as Runtimes),
+    name: process.title.split("/").pop() as Runtimes,
     /**
      * Retrieves the required and current versions of the runtime.
      *
