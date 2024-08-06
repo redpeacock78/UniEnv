@@ -31,10 +31,10 @@
   },
   "scripts": {
     "build": "tsx ./scripts/build_ts.ts",
-    "release": "yarn version ${1}",
-    "major": "yarn release --major && git tag v$(cat package.json | grep '\"version\": ' | awk '{gsub(\"\\\"\", \"\");sub(\",\", \"\");print $2}') && git push && git push --tags",
-    "minor": "yarn release --minor && git tag v$(cat package.json | grep '\"version\": ' | awk '{gsub(\"\\\"\", \"\");sub(\",\", \"\");print $2}') && git push && git push --tags",
-    "patch": "yarn release --patch && git tag v$(cat package.json | grep '\"version\": ' | awk '{gsub(\"\\\"\", \"\");sub(\",\", \"\");print $2}') && git push && git push --tags",
+    "release": "yarn version",
+    "major": "yarn release --major && git push && git push --tags",
+    "minor": "yarn release --minor && git push && git push --tags",
+    "patch": "yarn release --patch && git push && git push --tags",
     "prepublishOnly": "npm run build"
   }
 }
