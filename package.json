@@ -31,6 +31,10 @@
   },
   "scripts": {
     "build": "tsx ./scripts/build_ts.ts",
+    "release": "yarn version ${1} && git tag v$(cat package.json | grep '\"version\": ' | awk '{gsub(\"\\\"\", \"\");sub(\",\", \"\");print $2}')",
+    "major": "yarn release --major && git push && git push --tags",
+    "minor": "yarn release --minor && git push && git push --tags",
+    "patch": "yarn release --patch && git push && git push --tags",
     "prepublishOnly": "npm run build"
   }
 }
