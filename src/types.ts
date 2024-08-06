@@ -34,3 +34,73 @@ export class Ng<E extends Error> extends _Result<unknown, E> {
 export type Result<T, E extends Error> = Ok<T> | Ng<E>;
 export type Nullish = null | undefined;
 export type Maybe<T> = T | Nullish;
+
+export type Path = string | URL;
+export type Runtimes = "node" | "bun" | "deno";
+export type Platforms =
+  | typeof ProcessTypes.platform
+  | typeof DenoTypes.build.os;
+export type Versions = {
+  require: string;
+  current: string;
+};
+export type PermissionDescriptor = {
+  name: "run" | "read" | "write" | "net" | "env" | "hrtime" | "sys" | "ffi";
+  path?: string | URL;
+  host?: string;
+  variable?: string;
+  kind?:
+    | "loadavg"
+    | "hostname"
+    | "systemMemoryInfo"
+    | "networkInterfaces"
+    | "osRelease"
+    | "osUptime"
+    | "uid"
+    | "gid"
+    | "username"
+    | "cpus"
+    | "homedir"
+    | "statfs"
+    | "getPriority"
+    | "setPriority";
+};
+
+interface ProcessTypes {
+  title: string;
+  versions: { node: string };
+  platform:
+    | "aix"
+    | "darwin"
+    | "freebsd"
+    | "linux"
+    | "openbsd"
+    | "sunos"
+    | "win32";
+  env: { [key: string]: Maybe<string> };
+  execArgv: string[];
+  cwd(): string;
+}
+interface DenoTypes {
+  version: { deno: string };
+  build: { os: "darwin" | "linux" | "windows" };
+  env: {
+    get(name: string): Maybe<string>;
+    set(name: string, value: string): void;
+    delete(name: string): void;
+  };
+  cwd(): string;
+  readTextFileSync(path: Path): string;
+  statSync(path: Path): {
+    isFile: boolean;
+  };
+  permissions: {
+    querySync: (desc: PermissionDescriptor) => {
+      state: "granted" | "prompt" | "denied";
+      partial?: boolean;
+      onchange: null;
+    };
+  };
+}
+export declare const ProcessTypes: ProcessTypes;
+export declare const DenoTypes: DenoTypes;
