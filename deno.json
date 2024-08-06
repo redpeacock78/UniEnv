@@ -1,5 +1,6 @@
 {
   "imports": {
-    "fs": "node:fs"
+    "fs": "node:fs",
+    "process": "node:process"
   }
 }
