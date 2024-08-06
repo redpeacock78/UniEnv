@@ -68,7 +68,7 @@
 ## Runtime Version Requirements
 |Node.js|Bun|Deno|
 |:-:|:-:|:-:|
-|✅ `12.0.0` or higher|✅ `1.0` or higher|✅ `1.30.0` or higher|
+|✅ `14.0.0` or higher|✅ `1.0` or higher|✅ `1.30.0` or higher|
 
 ## License
 MIT
