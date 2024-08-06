@@ -2,7 +2,7 @@
   "name": "@redpeacock78/unienv",
   "version": "0.0.9",
   "description": "Unified environment variable management for Node.js, Deno, and Bun.",
-  "main": "./cjs/lib/index.cjs",
+  "main": "./dist/cjs/lib/index.cjs",
   "repository": "https://github.com/redpeacock78/UniEnv.git",
   "author": "redpeacock78",
   "license": "MIT",
