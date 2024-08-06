@@ -17,7 +17,12 @@ let permissionLoaded: boolean = false;
 let permissionPersult: Maybe<"granted" | "prompt" | "denied">;
 const Commons = {
   runtime: {
-    name: process.title.split("/").pop() as Runtimes,
+    name:
+      typeof process === "undefined"
+        ? "deno"
+        : typeof process.title === "undefined"
+        ? "deno"
+        : (process.title.split("/").pop() as Runtimes),
     /**
      * Retrieves the required and current versions of the runtime.
      *
