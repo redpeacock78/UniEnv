@@ -125,6 +125,6 @@ const Utils = {
    */
   ucFirst: (str: string): string =>
     `${str.charAt(0).toUpperCase()}${str.slice(1)}`,
-};
+} as const;
 
 export default Utils;
