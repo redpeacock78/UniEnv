@@ -14,7 +14,7 @@ import {
 export declare const Deno: typeof DenoTypes;
 
 let permissionLoaded: boolean = false;
-let permissionPersult: Maybe<"granted" | "prompt" | "denied">;
+let permissionResult: Maybe<"granted" | "prompt" | "denied">;
 const Commons = {
   runtime: {
     name:
@@ -28,7 +28,7 @@ const Commons = {
      *
      * @return {Version} An object containing the required and current versions of the runtime.
      *                  - `require`: A string representing the required version of the runtime.
-     *                              - For Node.js, it is set to "12.0.0".
+     *                              - For Node.js, it is set to "14.0.0".
      *                              - For Deno, it is set to "1.30.0".
      *                              - For Bun, it is set to "1.0".
      *                  - `current`: A string representing the current version of the runtime.
@@ -39,7 +39,7 @@ const Commons = {
       return {
         require:
           RuntimeName === "node"
-            ? "12.0.0" // Node.js
+            ? "14.0.0" // Node.js
             : RuntimeName === "deno"
             ? "1.30.0" // Deno
             : "1.0", // Bun
@@ -123,13 +123,13 @@ const Commons = {
     desc: PermissionDescriptor
   ): Maybe<"granted" | "prompt" | "denied"> => {
     if (!permissionLoaded) {
-      permissionPersult =
+      permissionResult =
         RuntimeName !== "deno" ? null : Deno.permissions.querySync(desc).state;
       permissionLoaded = true;
     }
-    return permissionPersult;
+    return permissionResult;
   },
-};
+} as const;
 const RuntimeName: Runtimes = Commons.runtime.name;
 
 export default Commons;
