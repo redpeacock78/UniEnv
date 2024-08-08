@@ -19,6 +19,13 @@ class VersionError extends Error {
   }
 }
 
+type ApiFunctionType = (
+  key: string,
+  value: string
+) => Result<void | Maybe<string>, VersionError | Error>;
+type RuntimeMapType = Record<typeof RuntimeName, ApiFunctionType>;
+type UniEnvMapType = Record<"set" | "get" | "delete", ApiFunctionType>;
+
 const runtime: string = Utils.ucFirst(
   RuntimeName === "node" ? `${RuntimeName}.js` : RuntimeName
 );
@@ -88,10 +95,7 @@ const setRuntimeMap = {
       return new Ng<Error>(new Error((e as Error).message));
     }
   },
-} as const satisfies Record<
-  string,
-  (key: string, value: string) => Result<void, VersionError | Error>
->;
+} as const satisfies RuntimeMapType;
 
 const getRuntimeMap = {
   /**
@@ -151,10 +155,7 @@ const getRuntimeMap = {
       return new Ng<Error>(new Error((e as Error).message));
     }
   },
-} as const satisfies Record<
-  string,
-  (key: string) => Result<Maybe<string>, VersionError | Error>
->;
+} as const satisfies RuntimeMapType;
 
 const deleteRuntimeMap = {
   /**
@@ -202,10 +203,7 @@ const deleteRuntimeMap = {
       return new Ng<Error>(new Error((e as Error).message));
     }
   },
-} as const satisfies Record<
-  string,
-  (key: string) => Result<void, VersionError | Error>
->;
+} as const satisfies RuntimeMapType;
 
 const UniEnv = {
   /**
@@ -233,12 +231,6 @@ const UniEnv = {
    */
   delete: (key: string): Result<void, VersionError | Error> =>
     deleteRuntimeMap[RuntimeName]?.(key),
-} as const satisfies Record<
-  string,
-  (
-    key: string,
-    value: string
-  ) => Result<void | Maybe<string>, VersionError | Error>
->;
+} as const satisfies UniEnvMapType;
 
 export default UniEnv;
