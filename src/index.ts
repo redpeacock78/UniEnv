@@ -1,12 +1,7 @@
 "use strict";
 import Utils from "./utils.ts";
-import { Maybe, Result, Ok, Ng } from "./types.ts";
+import { Maybe, Result, Ok, Ng, Runtimes } from "./types.ts";
 import Commons, { RuntimeName } from "./commons.ts";
-
-type versionErrorProp = {
-  runtime: string;
-  version: { require: string; current: string };
-};
 
 class VersionError extends Error {
   constructor(prop: versionErrorProp) {
@@ -19,11 +14,15 @@ class VersionError extends Error {
   }
 }
 
+type versionErrorProp = {
+  runtime: string;
+  version: { require: string; current: string };
+};
 type ApiFunctionType = (
   key: string,
   value: string
 ) => Result<void | Maybe<string>, VersionError | Error>;
-type RuntimeMapType = Record<typeof RuntimeName, ApiFunctionType>;
+type RuntimeMapType = Record<Runtimes, ApiFunctionType>;
 type UniEnvMapType = Record<"set" | "get" | "delete", ApiFunctionType>;
 
 const runtime: string = Utils.ucFirst(
