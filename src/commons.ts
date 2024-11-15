@@ -125,8 +125,15 @@ const Commons = {
     desc: PermissionDescriptor
   ): Maybe<"granted" | "prompt" | "denied"> => {
     if (!permissionLoaded) {
-      permissionResult =
-        RuntimeName !== "deno" ? null : Deno.permissions.querySync(desc).state;
+      if (RuntimeName !== "deno") {
+        permissionResult = null;
+      } else {
+        if (typeof Deno.permissions.querySync === "function") {
+          permissionResult = Deno.permissions.querySync(desc).state; // Deno
+        } else {
+          permissionResult = "denied"; // Deno Deploy
+        }
+      }
       permissionLoaded = true;
     }
     return permissionResult;
