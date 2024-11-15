@@ -46,7 +46,9 @@ const Commons = {
         current:
           RuntimeName !== "deno"
             ? process.versions.node // Node.js & Bun
-            : Deno.version.deno, // Deno
+            : Deno.version.deno !== ""
+            ? Deno.version.deno // Deno
+            : "1.30.0", // Deno Deploy
       };
     },
   },
