@@ -1,6 +1,6 @@
 # UniEnv
 
-***Unified environment variable management for Node.js, Deno, and Bun.***
+***Unified environment variable management for Node.js, Deno (Deno Deploy), and Bun.***
 
 ## Usage
 - ### Code
