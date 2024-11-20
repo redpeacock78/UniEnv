@@ -233,3 +233,4 @@ const UniEnv = {
 } as const satisfies UniEnvMapType;
 
 export default UniEnv;
+export type { Result, Maybe, VersionError };
