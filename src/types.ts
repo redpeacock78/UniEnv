@@ -31,6 +31,29 @@ export class Ng<E extends Error> extends _Result<unknown, E> {
   }
 }
 
+export type ApiFunctionType = (
+  key: string,
+  value: string
+) => Result<void | Maybe<string>, SomeError>;
+export type RuntimeMapType = Record<Runtimes, ApiFunctionType>;
+export type UniEnvMapType = Record<"set" | "get" | "delete", ApiFunctionType>;
+export type VersionErrorProp = {
+  runtime: string;
+  version: { require: string; current: string };
+};
+
+export class VersionError extends Error {
+  constructor(prop: VersionErrorProp) {
+    const runtime = prop.runtime;
+    const require = prop.version.require;
+    const current = prop.version.current;
+    const errorText = `${runtime} version ${require} or higher is required. Current version: ${current}`;
+    super(errorText);
+    this.name = "VersionError";
+  }
+}
+export type SomeError = VersionError | Error;
+
 export type Result<T, E extends Error> = Ok<T> | Ng<E>;
 export type Nullish = null | undefined;
 export type Maybe<T> = T | Nullish;
