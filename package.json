@@ -29,6 +29,19 @@
   "devDependencies": {
     "tsx": "^4.16.5"
   },
+  "keywords": [
+    "dotenv",
+    "env",
+    ".env",
+    "environment",
+    "variables",
+    "config",
+    "settings",
+    "node",
+    "deno",
+    "bun",
+    "deno deploy"
+  ],
   "scripts": {
     "build": "tsx ./scripts/build_ts.ts",
     "release": "yarn version",
