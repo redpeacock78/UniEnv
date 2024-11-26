@@ -201,7 +201,7 @@ const UniEnv = {
    * @return {Result<void, SomeError>} The result of setting the key-value pair.
    */
   set: (key: string, value: string): Result<void, SomeError> =>
-    setRuntimeMap[RuntimeName]?.(key, value),
+    setRuntimeMap[RuntimeName](key, value),
   /**
    * Retrieves a value from the runtime map based on the provided key.
    *
@@ -209,7 +209,7 @@ const UniEnv = {
    * @return {Result<Maybe<string>, SomeError>} The value associated with the key or a VersionError.
    */
   get: (key: string): Result<Maybe<string>, SomeError> =>
-    getRuntimeMap[RuntimeName]?.(key),
+    getRuntimeMap[RuntimeName](key),
   /**
    * Deletes a key-value pair in the runtime map based on the runtime's name.
    *
@@ -217,8 +217,8 @@ const UniEnv = {
    * @return {Result<void, SomeError>} The result of deleting the key-value pair.
    */
   delete: (key: string): Result<void, SomeError> =>
-    deleteRuntimeMap[RuntimeName]?.(key),
+    deleteRuntimeMap[RuntimeName](key),
 } as const satisfies UniEnvMapType;
 
 export default UniEnv;
-export type { Result, Maybe, SomeError };
+export type { Result, Maybe, SomeError, VersionError };
