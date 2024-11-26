@@ -1,9 +1,12 @@
 {
   "name": "@redpeacock78/unienv",
   "version": "0.0.17",
-  "description": "Unified environment variable management for Node.js, Deno, and Bun.",
+  "description": "Unified environment variable management for Node.js, Deno (Deno Deploy), and Bun.",
   "main": "./dist/cjs/lib/index.cjs",
-  "repository": "https://github.com/redpeacock78/UniEnv.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/redpeacock78/unienv.git"
+  },
   "author": "redpeacock78",
   "license": "MIT",
   "exports": {
@@ -20,6 +23,7 @@
     "dist/",
     "LICENSE",
     "package.json",
+    "deno.json",
     "README.md"
   ],
   "dependencies": {
